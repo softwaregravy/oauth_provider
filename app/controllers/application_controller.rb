@@ -2,7 +2,7 @@
 # Likewise, all the methods added will be available for all controllers.
 class ApplicationController < ActionController::Base
   helper :all
-  helper_method :current_user_session, :current_user
+  helper_method :current_user_session, :current_user, :fetch_logged_in_user, :logged_in?
   filter_parameter_logging :password, :password_confirmation
   
   private
@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
       return @current_user if defined?(@current_user)
       @current_user = current_user_session && current_user_session.record
     end
+
+    def fetch_logged_in_user 
+      current_user 
+    end 
     
     def require_user
       unless current_user
