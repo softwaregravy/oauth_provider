@@ -1,8 +1,11 @@
 # Filters added to this controller apply to all controllers in the application.
 # Likewise, all the methods added will be available for all controllers.
+require 'oauth/controllers/application_controller_methods'
+
 class ApplicationController < ActionController::Base
+  include OAuth::Controllers::ApplicationControllerMethods
   helper :all
-  helper_method :current_user_session, :current_user, :fetch_logged_in_user, :logged_in?
+  helper_method :current_user_session, :current_user, :fetch_logged_in_user, :logged_in?, :oauthenticate 
   filter_parameter_logging :password, :password_confirmation
   
   private
@@ -30,13 +33,14 @@ class ApplicationController < ActionController::Base
     end
 
     def logged_in?
-      return true if current_user 
+      return !current_user.nil?
     end 
 
     def login_required 
-      return true if logged_in? 
+      return true if logged_in?
       store_location 
-      redirect_to new_user_session_path and return false 
+      redirect_to new_user_session_url 
+      return false 
     end 
 
     def require_no_user

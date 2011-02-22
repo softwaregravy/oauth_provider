@@ -1,16 +1,55 @@
+require 'oauth'
+require 'oauth-plugin'
+require 'oauth/controllers/provider_controller'
 class CommentsController < ApplicationController
+  include OAuth::Controllers::ProviderController
+
+  before_filter :my_login_or_oauth_required
+
+  def this_is_my_filter 
+    logger.debug "running my filter"
+    logger.debug "current user is #{current_user.inspect}"
+    return true 
+  end 
+
+  def my_login_or_oauth_required
+
+    begin 
+      if ClientApplication.verify_request(request) do |request_proxy|
+        @client_application = ClientApplication.find_by_key(request_proxy.consumer_key)
+
+        # Store this temporarily in client_application object for use in request token generation 
+        @client_application.token_callback_url=request_proxy.oauth_callback if request_proxy.oauth_callback
+
+        # return the token secret and the consumer secret
+        [nil, @client_application.secret]
+      end
+      logger.debug "access granted"
+      true
+      else
+        logger.debug "access denied"
+        false
+      end
+    rescue 
+      logger.debug "access denied"
+      false 
+    end 
+
+  end 
+
   # GET /comments
   # GET /comments.xml
   def index
+    puts request.inspect
     @comments = Comment.all
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @comments }
+      format.json { render :json => @comments }
     end
   end
 
-  # GET /comments/1
   # GET /comments/1.xml
   def show
     @comment = Comment.find(params[:id])
