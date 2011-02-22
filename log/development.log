@@ -627,3 +627,50 @@ Processing OauthClientsController#show (for 127.0.0.1 at 2011-02-21 17:25:03) [G
   [4;36;1mClientApplication Load (0.2ms)[0m   [0;1mSELECT * FROM "client_applications" WHERE ("client_applications"."id" = 1 AND ("client_applications".user_id = 1)) [0m
 Rendering oauth_clients/show
 Completed in 82ms (View: 2, DB: 1) | 200 OK [http://localhost/oauth_clients/1]
+
+
+Processing OauthClientsController#edit (for 127.0.0.1 at 2011-02-21 17:58:55) [GET]
+  Parameters: {"action"=>"edit", "id"=>"1", "controller"=>"oauth_clients"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."persistence_token" = '8a71cd9ad281c8da2d5e391f0116fff8766ea630535203d983c622f0fbfa0c8a2c3d25e4138cc258a8c0702bff75d721d971fb68a2b439f0a3b44d69fb5f3da3') LIMIT 1[0m
+  [4;36;1mClientApplication Load (0.2ms)[0m   [0;1mSELECT * FROM "client_applications" WHERE ("client_applications"."id" = 1 AND ("client_applications".user_id = 1)) [0m
+Rendering oauth_clients/edit
+Rendered oauth_clients/_form (2.2ms)
+Completed in 54ms (View: 8, DB: 1) | 200 OK [http://localhost/oauth_clients/1/edit]
+
+
+Processing OauthClientsController#index (for 127.0.0.1 at 2011-02-21 17:58:57) [GET]
+  Parameters: {"action"=>"index", "controller"=>"oauth_clients"}
+  [4;35;1mUser Load (0.3ms)[0m   [0mSELECT * FROM "users" WHERE ("users"."persistence_token" = '8a71cd9ad281c8da2d5e391f0116fff8766ea630535203d983c622f0fbfa0c8a2c3d25e4138cc258a8c0702bff75d721d971fb68a2b439f0a3b44d69fb5f3da3') LIMIT 1[0m
+  [4;36;1mOauthToken Load (0.2ms)[0m   [0;1mSELECT * FROM "oauth_tokens" WHERE ("oauth_tokens".user_id = 1 AND (oauth_tokens.invalidated_at is null and oauth_tokens.authorized_at is not null)) ORDER BY authorized_at desc[0m
+Rendering oauth_clients/index
+  [4;35;1mSQL (0.2ms)[0m   [0mSELECT count(*) AS count_all FROM "client_applications" WHERE ("client_applications".user_id = 1) [0m
+  [4;36;1mClientApplication Load (0.2ms)[0m   [0;1mSELECT * FROM "client_applications" WHERE ("client_applications".user_id = 1) [0m
+Completed in 27ms (View: 6, DB: 1) | 200 OK [http://localhost/oauth_clients]
+  [4;36;1mSQL (0.7ms)[0m   [0;1m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mSELECT version FROM schema_migrations[0m
+Migrating to CreateOauthTables (20110221212726)
+Migrating to CreateUsers (20110221214429)
+Migrating to CreateComments (20110221230409)
+  [4;36;1mSQL (0.1ms)[0m   [0;1mselect sqlite_version(*)[0m
+  [4;35;1mSQL (0.5ms)[0m   [0mCREATE TABLE "comments" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "content" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mINSERT INTO schema_migrations (version) VALUES ('20110221230409')[0m
+  [4;35;1mSQL (0.3ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mSELECT version FROM schema_migrations[0m
+  [4;35;1mSQL (0.2ms)[0m   [0m SELECT name
+ FROM sqlite_master
+ WHERE type = 'table' AND NOT name = 'sqlite_sequence'
+[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_list("client_applications")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_info('index_client_applications_on_key')[0m
+  [4;36;1mSQL (0.0ms)[0m   [0;1mPRAGMA index_list("comments")[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("oauth_nonces")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_oauth_nonces_on_nonce_and_timestamp')[0m
+  [4;35;1mSQL (0.1ms)[0m   [0mPRAGMA index_list("oauth_tokens")[0m
+  [4;36;1mSQL (0.1ms)[0m   [0;1mPRAGMA index_info('index_oauth_tokens_on_token')[0m
+  [4;35;1mSQL (0.0ms)[0m   [0mPRAGMA index_list("users")[0m

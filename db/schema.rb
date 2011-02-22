@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110221214429) do
+ActiveRecord::Schema.define(:version => 20110221230409) do
 
   create_table "client_applications", :force => true do |t|
     t.string   "name"
@@ -24,6 +24,12 @@ ActiveRecord::Schema.define(:version => 20110221214429) do
   end
 
   add_index "client_applications", ["key"], :name => "index_client_applications_on_key", :unique => true
+
+  create_table "comments", :force => true do |t|
+    t.string   "content"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "oauth_nonces", :force => true do |t|
     t.string   "nonce"
