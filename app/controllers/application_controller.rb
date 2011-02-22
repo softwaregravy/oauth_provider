@@ -32,7 +32,7 @@ class ApplicationController < ActionController::Base
     def login_required 
       return true if logged_in? 
       store_location 
-      redirect_to new_session_path and return false 
+      redirect_to new_user_session_path and return false 
     end 
 
     def require_no_user
